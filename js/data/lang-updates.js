@@ -8,6 +8,8 @@
 (() => {
   const languages = ['fr', 'it', 'pt-BR', 'zh-Hans', 'zh-Hant'];
   const rows = [
+    ["Rechazar transformación", "Refuser", "Rifiuta", "Recusar", "拒绝", "拒絕"],
+    ["Puedes rechazar un objeto de transformación o saltar su cinemática con un clic o con A para ver directamente el resultado.", "Tu peux refuser un objet de transformation ou passer sa cinématique avec un clic ou A pour voir directement le résultat.", "Puoi rifiutare uno strumento di trasformazione o saltare il filmato con un clic o A per vedere subito il risultato.", "Você pode recusar um item de transformação ou pular a animação com um clique ou A para ver o resultado imediatamente.", "可以拒绝变身道具，或点击屏幕、按A跳过动画，直接查看结果。", "可以拒絕變身道具，或點擊畫面、按A跳過動畫，直接查看結果。"],
     ["ULTRAGRIETA", "ULTRA-FAILLE", "ULTRAFENDITURA", "ULTRAFENDA", "究极裂隙", "究極裂隙"],
     ["¡SE HA ABIERTO UNA ULTRAGRIETA!", "UNE ULTRA-FAILLE S’EST OUVERTE !", "SI È APERTA UN’ULTRAFENDITURA!", "UMA ULTRAFENDA SE ABRIU!", "究极裂隙已开启！", "究極裂隙已開啟！"],
     ["Sigue la flecha azul: vence al legendario para transformarte", "Suis la flèche bleue : bats le légendaire pour te transformer", "Segui la freccia blu: sconfiggi il leggendario per trasformarti", "Siga a seta azul: derrote o lendário para se transformar", "跟随蓝色箭头：击败传说宝可梦即可变身", "跟隨藍色箭頭：擊敗傳說寶可夢即可變身"],

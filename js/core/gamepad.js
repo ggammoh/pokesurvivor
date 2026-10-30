@@ -247,6 +247,14 @@ G.Pad = (() => {
     const l = Math.hypot(x, y);
     if (l > 1) { x /= l; y /= l; }
 
+    if (G.FormScene?.active) {
+      vec = [0, 0]; aimVec = [0, 0];
+      if (hit(BT.A)) {
+        if (G.FormScene.stage === 'result') G.FormScene.continue();
+        else G.FormScene.skip();
+      }
+      return;
+    }
     if (uiMode()) {
       vec = [0, 0];
       // Mover la selección: al empujar, y repitiendo si se mantiene.

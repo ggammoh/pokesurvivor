@@ -152,3 +152,13 @@ test('normal/shiny form sheets have all seven valid animations and a separate as
     }
   }
 });
+
+test('denying a form reward clears only the offer and permits a later reward', () => {
+  for (const dex of [448,646]) {
+    const {G,p}=game(dex);const before={form:p.formId,hp:p.hp,item:p.item};
+    assert.equal(G.Forms.declineReward(p),false);assert.ok(G.Forms.queueReward(p));
+    assert.ok(G.Forms.declineReward(p));assert.equal(p.pendingMegaForm,null);assert.equal(p.megaStone,null);
+    assert.deepEqual({form:p.formId,hp:p.hp,item:p.item},before);assert.equal(G.Forms.declineReward(p),false);
+    assert.ok(G.Forms.queueReward(p));
+  }
+});

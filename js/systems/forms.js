@@ -79,6 +79,12 @@ G.Forms = (() => {
     return !!f && choices.includes(f) && f.stone === pending.stone && awardReward(p, f.id, options);
   }
 
+  function declineReward(p) {
+    if (!p || !get(p.pendingMegaForm) || !rewardFormsFor(p).includes(get(p.pendingMegaForm))) return false;
+    p.pendingMegaForm = null;
+    return true;
+  }
+
   function awardReward(p, id, options = {}) {
     if (!canClaimReward(p)) return false;
     const choices = rewardFormsFor(p), f = get(id || (choices.length === 1 ? choices[0].id : ''));
@@ -117,7 +123,7 @@ G.Forms = (() => {
   }
   function revert(p) { return !!p._originalForm && transform(p, p._originalForm.id, { silent: true }); }
   const megaForDex = dex => rewardFormsForDex(dex).find(f => f.category === 'mega') || null;
-  const api = { get, transform, revert, preload, awardReward, queueReward, claimReward, applyRemote,
+  const api = { get, transform, revert, preload, awardReward, queueReward, claimReward, declineReward, applyRemote,
     rewardForDex, rewardFormsForDex, rewardFormsFor, canClaimReward,
     // Compatibility for existing debug scripts and Mega-only callers.
     awardMega: awardReward, queueMega: queueReward, claimMega: claimReward,

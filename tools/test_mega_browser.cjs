@@ -242,6 +242,16 @@ const server = http.createServer((req, res) => {
     await page.evaluate(() => {
       rewardApi.hold([]);
       if (G.Game.state !== 'playing') throw Error('co-op remained paused after all choices');
+      G.Game.startRun({ seed: 123, hw: false }); G.Forms.queueReward(G.Game.player);
+    });
+    await page.locator('#scr-mega:not(.hidden)').waitFor();
+    await page.waitForFunction(() => !document.getElementById('mega-cards').classList.contains('guard'));
+    await page.locator('#mega-deny').click();
+    assert.equal(await page.evaluate(() => G.Game.state), 'playing');
+    assert.equal(await page.evaluate(() => G.Game.player.pendingMegaForm), null);
+    assert.equal(await page.evaluate(() => G.FormScene.active), false);
+    assert.deepEqual(await page.evaluate(() => rewardHolds), { start: 4, end: 4 });
+    await page.evaluate(() => {
       G.Coop = originalCoop; G.Game.startRun(); G.Game.togglePause(); G.UI.hideAll();
     });
     assert.equal(await page.evaluate(() => G.DB.commit()), false);

@@ -1138,3 +1138,5 @@ html:lang(zh) .btn, html:lang(zh) .chip { letter-spacing: 0; }
 @media(max-height:450px){.fc-content{grid-template-columns:44% 56%;grid-template-rows:30px 32px minmax(0,1fr) 34px;gap:4px;width:min(720px,92vw)}.fc-content h2{grid-column:1;grid-row:1;font-size:24px}.fc-item{grid-column:1;grid-row:2;height:32px}.fc-item img,.fc-item canvas{width:32px!important;height:32px!important}.fc-sprites{grid-column:1;grid-row:3/5;width:100%}.fc-results{grid-column:2;grid-row:1/4}.fc-continue{grid-column:2;grid-row:4;padding:5px 16px}.fc-stat{font-size:12px}.fc-complete{font-size:14px;margin-bottom:5px}}
 
 .fc-types{display:flex;justify-content:center;gap:6px;margin-bottom:4px}.fc-types .type{font-size:11px;padding:2px 8px}
+
+#mega-deny-row{grid-column:1/-1;text-align:center;margin-top:8px}.mega-deny{font-size:12px;padding:4px 14px;color:var(--muted);border-color:transparent!important}.mega-deny:hover,.mega-deny:focus-visible{color:var(--ink);border-color:var(--edge-in)!important}

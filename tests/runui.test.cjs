@@ -86,3 +86,12 @@ test('DNA Splicers displays two guarded choices and claims only the selected for
     assert.deepEqual(picked, [forms[index].id]);
   }
 });
+
+test('Deny is guarded and mutually exclusive with claiming either form',()=>{
+ const r=runUI(),picked=[];
+ const forms=['black','white'].map(v=>({id:'kyurem-'+v,name:v,category:'fusion',stone:'dna_splicers',stoneName:'DNA',sprite:{key:v},stats:{pa:2,sa:1}}));
+ r.G.RunUI.showMegaStone(forms[0],id=>picked.push(id),forms);
+ const deny=r.$('mega-deny-row').children[0];deny.onclick();assert.deepEqual(picked,[]);
+ r.wait(1000);r.finger(deny);r.wait(1000);r.$('mega-cards').children[0].onclick();deny.onclick();
+ assert.deepEqual(picked,[null]);
+});

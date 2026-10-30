@@ -25,6 +25,9 @@ name changes and all six nature-adjusted base stats show before/after values.
 The item remains visible and the result shows the new form’s type badges.
 Fixed layout slots keep the sprite still when results appear; visible-pixel
 bounds keep large forms fully in frame with a larger reveal scale.
+A subdued Deny button declines the current item without changing the player;
+a later Ultra Rift can offer another item. Clicking the cinematic or pressing
+A (keyboard or controller) jumps to the result, still paused.
 Continue closes the bars and releases the existing co-op hold. Reduced-motion
 users get a shorter fade without alternating silhouettes. Combat, timers and
 cooldowns stay paused; queued items and co-op level choices wait. Leaving or

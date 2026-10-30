@@ -4,6 +4,8 @@
  * son los oficiales en inglés.
  */
 G.I18n.add({
+  "Rechazar transformación": "Deny",
+  "Puedes rechazar un objeto de transformación o saltar su cinemática con un clic o con A para ver directamente el resultado.": "You can decline a transformation item or skip its cinematic with a click or A to view the result immediately.",
   "ULTRAGRIETA": "ULTRA RIFT",
   "¡SE HA ABIERTO UNA ULTRAGRIETA!": "AN ULTRA RIFT HAS OPENED!",
   "Sigue la flecha azul: vence al legendario para transformarte": "Follow the blue arrow: defeat the Legendary to transform",

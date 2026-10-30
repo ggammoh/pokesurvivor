@@ -538,6 +538,13 @@ G.Game = (() => {
     if (G.Coop.active) G.Coop.holdStart();
     G.RunUI.showMegaStone(form, id => {
       if (pl !== player || state !== 'choice') return;
+      if (id === null) {
+        if (!G.Forms.declineReward(player)) return;
+        state = holdBy.length || awayBy ? 'held' : 'playing';
+        if (G.Coop.active) G.Coop.holdEnd();
+        afterLevelUp();
+        return;
+      }
       const target = G.Forms.get(id);
       if (!target || !G.Forms.rewardFormsFor(player).includes(target)) return;
       G.FormScene.start(player, target,
@@ -672,6 +679,7 @@ G.Game = (() => {
 
   function handleKeys() {
     if (G.FormScene.active) {
+      if (G.Input.tap('keya')) G.FormScene.skip();
       if (['enter', 'space'].some(k => G.Input.tap(k))) G.FormScene.continue();
       return;
     }
@@ -695,7 +703,7 @@ G.Game = (() => {
       }
       if (['enter', 'space'].some(k => G.Input.tap(k))) {
         const focused = document.activeElement;
-        (Array.from(choices).includes(focused) ? focused : choices[0])?.click();
+        (Array.from(choices).includes(focused) || focused?.id === 'mega-deny' ? focused : choices[0])?.click();
       }
       return;
     }

@@ -32,9 +32,11 @@ G.FormScene = (() => {
       reduced: matchMedia('(prefers-reduced-motion: reduce)').matches, deferred: [], closing: 0 };
     el.addEventListener('keydown', e => {
       e.stopPropagation();
+      if (e.key.toLowerCase() === 'a') { e.preventDefault(); skip(); }
       if (['Enter', ' '].includes(e.key)) { e.preventDefault(); advance(); }
       if (e.key === 'Tab' && scene?.stage !== 'result') e.preventDefault();
     });
+    el.addEventListener('click', e => { if (!e.target.closest('.fc-continue')) skip(); });
     el.querySelector('.fc-continue').onclick = advance;
     el.tabIndex = -1; document.body.appendChild(el); el.focus();
     // Already preloaded when the reward is offered; request again for a recovered tab.
@@ -58,6 +60,11 @@ G.FormScene = (() => {
     }
     G.Audio.sfx('legend');
     return true;
+  }
+  function skip() {
+    if (!scene || ['result', 'closing'].includes(scene.stage)) return;
+    scene.t = Math.max(scene.t, (scene.reduced ? 1.7 : 4.8) + .86);
+    update(0);
   }
   function advance() { if (scene?.stage === 'result') { scene.stage = 'closing'; scene.closing = 0; } }
   function update(dt) {
@@ -110,6 +117,6 @@ G.FormScene = (() => {
     }
     el.dataset.stage = s.stage;
   }
-  return { start, update, cancel, continue: advance, after(fn) { if (scene) scene.deferred.push(fn); },
+  return { start, update, cancel, skip, continue: advance, after(fn) { if (scene) scene.deferred.push(fn); },
     get active() { return !!scene; }, get stage() { return scene?.stage || null; } };
 })();
