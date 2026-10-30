@@ -146,3 +146,11 @@ Este es un proyecto de fan sin ánimo de lucro.
 Mega Lucario: **baronessfaron** (normal) and **Emmuffin** (shiny), SpriteCollab, CC BY-NC 4.0.
 Lucarionite and Mega Bracelet: Pagefault Games / PokéRogue asset contributors; upstream art terms are separate from the code license.
 See [asset provenance, pinned revisions and license notices](docs/MEGA_ASSETS.md).
+
+## Ultra Rift / UltraWormhole
+
+Animación del portal por **Clara-Dragon**:
+[UltraWormhole for Pokemon Essentials](https://www.deviantart.com/clara-dragon/art/UltraWormhole-for-Pokemon-Essentials-858790730).
+Fotogramas aportados por el contribuidor, que indica permiso de uso libre con crédito.
+Se han empaquetado sin alterar el arte en `assets/effects/ultra-rift.png`.
+Detalles en `assets/effects/ultra-rift.credits.txt` y `docs/MEGA_ASSETS.md`.

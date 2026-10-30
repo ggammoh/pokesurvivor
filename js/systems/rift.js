@@ -27,8 +27,13 @@ G.Rift = (() => {
   const ENCOUNTERS = {
     normal: { ttl: TTL, dmg: 1, shot: 1, speed: 1, frequency: 1, color: '#b48aff' },
     // Fixed solo HP at all three thresholds: about 30s at 300k boss DPS.
-    mega: { ttl: 60, hp: 9_000_000, dmg: 1.5, shot: 1.5, speed: 1.1, frequency: 1.2, color: '#ff4966' }
+    mega: { ttl: 60, hp: 9_000_000, dmg: 1.5, shot: 1.5, speed: 1.1, frequency: 1.2, color: '#a9edff' }
   };
+  // Ultra Rift uses nine supplied transparent frames, row-major, at 10 FPS.
+  // Keep the internal 'mega' encounter ID for existing saves/debug/co-op callers.
+  const ULTRA = { size: 132, display: 96, frames: 9, fps: 10 };
+  const ultraImage = typeof Image === 'function' ? new Image() : null;
+  if (ultraImage) ultraImage.src = 'assets/effects/ultra-rift.png';
   const TIMES = [900, 1200, 1500];
   let schedule = [], queue = [], previousTime = 0, retryT = 0, serial = 0;
   const resolved = new Set();
@@ -177,7 +182,7 @@ G.Rift = (() => {
     G.Camera.x = pl.x; G.Camera.y = pl.y;
     G.Game.flash(config(arena.kind).color, 0.9);
     G.Audio.sfx('rift');
-    G.Spawner.say(arena.kind === 'mega' ? 'Has entrado en la grieta mejorada…' : 'Has entrado en la grieta…', 2.4, true);
+    G.Spawner.say(arena.kind === 'mega' ? 'Has entrado en la Ultragrieta…' : 'Has entrado en la grieta…', 2.4, true);
   }
 
   function spawnLegend() {
@@ -293,17 +298,23 @@ G.Rift = (() => {
       y: rift.y,
       draw(ctx) {
         const P = G.Sprites.PX;
-        const img = G.Tiles.propSprite(0, rift.kind === 'mega' ? 'megaRift' : 'rift', Math.floor(rift.t * 8) % 4);
-        const w = img.width * P, h = img.height * P;
+        const ultra = rift.kind === 'mega' && ultraImage && ultraImage.complete && ultraImage.naturalWidth > 0;
+        const img = ultra ? ultraImage : G.Tiles.propSprite(0, 'rift', Math.floor(rift.t * 8) % 4);
+        const w = ultra ? ULTRA.display : img.width * P, h = ultra ? ULTRA.display : img.height * P;
         const fadeIn = Math.min(1, rift.t * 2), fadeOut = Math.min(1, rift.ttl / 1.5);
         ctx.save();
         ctx.globalAlpha = 0.25 * fadeIn * fadeOut;
-        ctx.fillStyle = rift.kind === 'mega' ? '#d51638' : '#7b3cff';
+        ctx.fillStyle = rift.kind === 'mega' ? '#8adfff' : '#7b3cff';
         ctx.beginPath(); ctx.ellipse(rift.x, rift.y, 34, 12, 0, 0, 6.2832); ctx.fill();
         ctx.globalAlpha = fadeIn * fadeOut;
-        ctx.drawImage(img, Math.round(rift.x - w / 2), Math.round(rift.y - h + 4), w, h);
+        if (ultra) {
+          const frame = Math.floor(rift.t * ULTRA.fps) % ULTRA.frames;
+          ctx.imageSmoothingEnabled = false;
+          ctx.drawImage(img, frame * ULTRA.size, 0, ULTRA.size, ULTRA.size,
+            Math.round(rift.x - w / 2), Math.round(rift.y - h + 4), w, h);
+        } else ctx.drawImage(img, Math.round(rift.x - w / 2), Math.round(rift.y - h + 4), w, h);
         ctx.restore();
-        if (Math.random() < 0.3) G.FX.px(rift.x + G.U.rand(-14, 14), rift.y - G.U.rand(10, 80), rift.kind === 'mega' ? '#ff9cba' : '#d9c2ff', { vy: -40, life: 0.6 });
+        if (Math.random() < 0.3) G.FX.px(rift.x + G.U.rand(-14, 14), rift.y - G.U.rand(10, 80), rift.kind === 'mega' ? '#d9faff' : '#d9c2ff', { vy: -40, life: 0.6 });
       }
     };
   }
@@ -335,6 +346,8 @@ G.Rift = (() => {
     debugOpen() { return open(); },
     debugArena(type) { start(type); },
     debugNextType(type) { nextType = type; },
+    debugOpenUltra() { return open('mega'); },
+    debugUltraArena() { start(null, 'mega'); },
     debugOpenMega() { return open('mega'); },
     debugMegaArena() { start(null, 'mega'); },
     debugWin() {

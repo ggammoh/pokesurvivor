@@ -1,6 +1,6 @@
 # Mega Evolution
 
-After winning an enhanced red rift, Lucario receives a Mega Stone reward screen.
+After winning an Ultra Rift, Lucario receives a Mega Stone reward screen.
 Claiming Lucarionite transforms the same player into Mega Lucario. The screen
 waits behind existing choices, pauses the run (including co-op), and prevents
 accidental or duplicate claims. Its normal held item remains equipped. Ineligible players
@@ -72,9 +72,11 @@ No new art pack or VFX assets are required.
   Existing co-op HP scaling applies on top. Normal rifts retain time-based HP.
   Damage/projectiles remain ×1.5, speed ×1.1, attack cooldown rate ×1.2;
   telegraph timing and the 120-second arena limit remain unchanged.
-- Red portal frames use a second palette in the existing pixel painter and its
-  cache. HUD arrows, banners, arena clock, entry/exit flashes and particles use
-  red accents. Judgment waits for queued enhanced encounters; entering Judgment
+- Ultra Rift portals use nine transparent 132×132 frames by Clara-Dragon,
+  packed into one sprite sheet and looped at 10 FPS. HUD arrows, banners, arena
+  clock, entry/exit flashes and particles use blue-white accents. Normal rifts
+  retain the existing purple pixel painter. The internal encounter ID remains
+  `mega` for network/debug compatibility. Judgment waits for queued enhanced encounters; entering Judgment
   clears the world portal without resetting the run's schedule.
 - `G.Hotbar.layout()` supplies HUD and touch-layout editor geometry, including
   safe areas and narrow viewports. The Mega slot registers no input handler and
@@ -132,8 +134,8 @@ G.DB.playAsGuest();
 G.DB.grant(448, 'test');
 G.DB.save.partner = 448;
 G.Game.startRun();
-G.Rift.debugOpenMega();          // walk into the red portal
-// Or G.Rift.debugMegaArena() to skip walking.
+G.Rift.debugOpenUltra();          // walk into the Ultra Rift portal
+// Or G.Rift.debugUltraArena() to skip walking.
 G.Rift.debugWin();               // kills the arena boss through normal damage
 // Resolve any level/item choices, claim the Mega Stone and return to the world.
 ```

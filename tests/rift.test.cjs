@@ -161,3 +161,17 @@ test('Judgment cannot restart the schedule or erase queued encounters at the end
   G.Judgment.active = true; G.Rift.closeWorld(); G.Rift.update(1, p, 1801);
   assert.equal(G.Rift.rift, null); assert.deepEqual(G.Rift.schedule, schedule);
 });
+
+test('Ultra Rift loops all nine source frames and ordinary rifts retain their renderer', () => {
+  const {G}=game();
+  class ImageStub { constructor(){this.complete=true;this.naturalWidth=1188;} }
+  load(G,'js/systems/rift.js',{Image:ImageStub});G.Rift.reset();
+  const calls=[];const ctx={save(){},restore(){},beginPath(){},ellipse(){},fill(){},drawImage(...a){calls.push(a);}};
+  G.Sprites.PX=2;G.Tiles.propSprite=()=>({width:32,height:48});
+  assert.ok(G.Rift.debugOpenUltra());
+  for(const [t,frame] of [[.05,0],[.15,1],[.85,8],[.95,0]]){
+    G.Rift.rift.t=t;G.Rift.drawable().draw(ctx);
+    const a=calls.at(-1);assert.equal(a.length,9);assert.equal(a[1],frame*132);assert.equal(a[3],132);assert.equal(a[7],96);
+  }
+  G.Rift.closeWorld();assert.ok(G.Rift.debugOpen());G.Rift.drawable().draw(ctx);assert.equal(calls.at(-1).length,5);
+});

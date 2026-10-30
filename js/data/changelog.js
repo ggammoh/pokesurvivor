@@ -7,6 +7,7 @@
  */
 G.CHANGELOG = [
   { d: '2026-10-29', title: ['Mega Evolución', 'Mega Evolution'], new: [
+    ["Las Ultragrietas tienen un portal animado de nueve fotogramas y señales azules. Aparecen a los 15, 20 y 25 minutos para conseguir objetos de transformación.", "Ultra Rifts feature a nine-frame animated portal and blue markers. They appear at 15, 20 and 25 minutes to award transformation items."],
     ["Al recoger la megapiedra o elegir una fusión, una secuencia con los sprites originales muestra la transformación y sus estadísticas base antes de continuar la partida.", "Claiming a Mega Stone or choosing a fusion plays a sprite-based transformation sequence and shows the base stat changes before the run continues."]
   ]},
   { d: '2026-10-28', title: ['Mega Evolución', 'Mega Evolution'], new: [

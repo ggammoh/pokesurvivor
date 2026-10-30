@@ -1,0 +1,9 @@
+Ultra Rift / UltraWormhole animation
+Artist: Clara-Dragon
+Source: https://www.deviantart.com/clara-dragon/art/UltraWormhole-for-Pokemon-Essentials-858790730
+Nine transparent 132x132 frames supplied by the contributor from PineTools.com_files.
+Repacked losslessly into ultra-rift.png in row-major order; playback: 10 FPS.
+Permission reported by the contributor: free use with credit to Clara-Dragon.
+The original artwork page could not be fetched automatically (HTTP 403).
+No Creative Commons or other standard license is asserted for this art.
+Pokémon designs belong to Nintendo / Creatures Inc. / GAME FREAK.

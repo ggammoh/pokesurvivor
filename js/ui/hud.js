@@ -195,10 +195,10 @@ G.HUD = (() => {
     // Grieta: flecha grande que late en el borde si no se ve, y si se ve, una
     // flecha que bota encima; en la arena, cuenta atrás.
     const rift = G.Rift.rift;
-    const redRift = (rift || G.Rift.arena || {}).kind === 'mega';
-    const riftLabel = redRift ? 'MEGAGRIETA' : 'GRIETA';
+    const ultraRift = (rift || G.Rift.arena || {}).kind === 'mega';
+    const riftLabel = ultraRift ? 'ULTRAGRIETA' : 'GRIETA';
     if (rift) {
-      const sx = (rift.x - cam.left()) * cam.scale, sy = (rift.y - 40 - cam.top()) * cam.scale;
+      const sx = (rift.x - cam.left()) * cam.scale, sy = (rift.y - (ultraRift ? 102 : 40) - cam.top()) * cam.scale;
       const now = performance.now() / 1000, beat = 0.5 + Math.sin(now * 7) * 0.5;
       const label = G.T(riftLabel) + ' · ' + Math.round(G.U.dist(pl.x, pl.y, rift.x, rift.y) / 32) + ' m · ' + Math.ceil(rift.ttl) + ' s';
       const off = sx < 0 || sx > w || sy < 0 || sy > h;
@@ -209,7 +209,7 @@ G.HUD = (() => {
         ctx.translate(ex, ey);
         // Halo que late.
         ctx.globalAlpha = 0.18 + beat * 0.22;
-        ctx.fillStyle = (redRift ? '#ff4966' : '#b48aff');
+        ctx.fillStyle = (ultraRift ? '#a9edff' : '#b48aff');
         ctx.beginPath(); ctx.arc(0, 0, 30 + beat * 8, 0, 6.2832); ctx.fill();
         ctx.globalAlpha = 1;
         const tri = (k) => {
@@ -219,33 +219,33 @@ G.HUD = (() => {
           ctx.lineTo(Math.cos(a - 2.45) * 20 * k, Math.sin(a - 2.45) * 20 * k);
           ctx.closePath();
         };
-        tri(1.12); ctx.fillStyle = (redRift ? '#330914' : '#1a0b33'); ctx.fill();
-        tri(1); ctx.fillStyle = beat > 0.5 ? (redRift ? '#ffd0dc' : '#e2d0ff') : (redRift ? '#ff4966' : '#a06bff'); ctx.fill();
+        tri(1.12); ctx.fillStyle = (ultraRift ? '#071d35' : '#1a0b33'); ctx.fill();
+        tri(1); ctx.fillStyle = beat > 0.5 ? (ultraRift ? '#e5fbff' : '#e2d0ff') : (ultraRift ? '#a9edff' : '#a06bff'); ctx.fill();
         ctx.font = F(800, 12);
         ctx.textAlign = ca > 0.3 ? 'right' : ca < -0.3 ? 'left' : 'center';
         const lx = -ca * 34, ly = -sa * 30 + 4;
         ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.85)';
         ctx.strokeText(label, lx, ly);
-        ctx.fillStyle = (redRift ? '#ffd0dc' : '#e2d0ff');
+        ctx.fillStyle = (ultraRift ? '#e5fbff' : '#e2d0ff');
         ctx.fillText(label, lx, ly);
       } else {
         // Encima de la grieta: flecha hacia abajo que bota.
         const by = sy - 46 - Math.abs(Math.sin(now * 4)) * 10;
         ctx.translate(sx, by);
         ctx.beginPath(); ctx.moveTo(-15, -12); ctx.lineTo(15, -12); ctx.lineTo(0, 8); ctx.closePath();
-        ctx.lineWidth = 4; ctx.strokeStyle = (redRift ? '#330914' : '#1a0b33'); ctx.stroke();
-        ctx.fillStyle = beat > 0.5 ? (redRift ? '#ffd0dc' : '#e2d0ff') : (redRift ? '#ff4966' : '#a06bff'); ctx.fill();
+        ctx.lineWidth = 4; ctx.strokeStyle = (ultraRift ? '#071d35' : '#1a0b33'); ctx.stroke();
+        ctx.fillStyle = beat > 0.5 ? (ultraRift ? '#e5fbff' : '#e2d0ff') : (ultraRift ? '#a9edff' : '#a06bff'); ctx.fill();
         ctx.font = F(800, 11); ctx.textAlign = 'center';
         ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.85)';
         const l2 = G.T(riftLabel) + ' · ' + Math.ceil(rift.ttl) + ' s';
-        ctx.strokeText(l2, 0, -18); ctx.fillStyle = (redRift ? '#ffd0dc' : '#e2d0ff'); ctx.fillText(l2, 0, -18);
+        ctx.strokeText(l2, 0, -18); ctx.fillStyle = (ultraRift ? '#e5fbff' : '#e2d0ff'); ctx.fillText(l2, 0, -18);
       }
       ctx.restore();
     }
     if (G.Rift.inArena) {
       ctx.textAlign = 'center';
       ctx.font = F(800, 12);
-      ctx.fillStyle = (redRift ? '#ff9cba' : '#d9c2ff');
+      ctx.fillStyle = (ultraRift ? '#b9f3ff' : '#d9c2ff');
       ctx.fillText(G.T(riftLabel) + ' · ' + G.U.mmss(G.Rift.timeLeft), w / 2, boss ? 98 : 76);
     }
 
@@ -260,15 +260,15 @@ G.HUD = (() => {
       ctx.globalAlpha = a;
       ctx.translate(w / 2, y0); ctx.scale(pop, pop);
       ctx.font = F(800, 20);
-      const t1 = redRift ? '¡SE HA ABIERTO UNA MEGAGRIETA!' : '¡SE HA ABIERTO UNA GRIETA!',
-            t2 = redRift ? 'Sigue la flecha roja: vence al legendario para transformarte' : 'Sigue la flecha morada: dentro te espera un legendario';
+      const t1 = G.T(ultraRift ? '¡SE HA ABIERTO UNA ULTRAGRIETA!' : '¡SE HA ABIERTO UNA GRIETA!'),
+            t2 = G.T(ultraRift ? 'Sigue la flecha azul: vence al legendario para transformarte' : 'Sigue la flecha morada: dentro te espera un legendario');
       const bw = Math.min(w - 24, Math.max(ctx.measureText(t1).width, (ctx.font = F(700, 11), ctx.measureText(t2).width)) + 36);
       roundRect(ctx, -bw / 2, -26, bw, 52, 10);
-      ctx.fillStyle = (redRift ? 'rgba(51,8,20,.88)' : 'rgba(26,11,51,.88)'); ctx.fill();
-      ctx.lineWidth = 2; ctx.strokeStyle = (redRift ? '#ff4966' : '#b48aff'); ctx.stroke();
+      ctx.fillStyle = (ultraRift ? 'rgba(7,29,53,.88)' : 'rgba(26,11,51,.88)'); ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = (ultraRift ? '#a9edff' : '#b48aff'); ctx.stroke();
       ctx.textAlign = 'center';
-      ctx.font = F(800, 20); ctx.fillStyle = (redRift ? '#ffd0dc' : '#e2d0ff'); ctx.fillText(t1, 0, -2);
-      ctx.font = F(700, 11); ctx.fillStyle = (redRift ? '#ffb0c2' : '#c9b0ff'); ctx.fillText(t2, 0, 16);
+      ctx.font = F(800, 20); ctx.fillStyle = (ultraRift ? '#e5fbff' : '#e2d0ff'); ctx.fillText(t1, 0, -2);
+      ctx.font = F(700, 11); ctx.fillStyle = (ultraRift ? '#b9f3ff' : '#c9b0ff'); ctx.fillText(t2, 0, 16);
       ctx.restore();
     }
 
